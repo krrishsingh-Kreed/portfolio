@@ -19,11 +19,12 @@
   box-sizing: border-box;
 }
 
-body {
+html, body {
   background-color: var(--bg);
   color: var(--text-main);
   font-family: var(--font-main);
   overflow-x: hidden;
+  width: 100%;
 }
 
 /* Base link styles */
@@ -39,7 +40,7 @@ body::after {
   background: url('https://upload.wikimedia.org/wikipedia/commons/7/76/1k_Dissolve_Noise_Texture.png');
   opacity: 0.04;
   pointer-events: none;
-  z-index: 9999;
+  z-index: 1; /* Move grain behind content */
 }
 
 
@@ -53,6 +54,8 @@ body::after {
 }
 .section-padding {
   padding: 15vh 0;
+  position: relative;
+  z-index: 2; /* Sit above the grain */
 }
 
 /* Typography Utilities */
@@ -77,7 +80,7 @@ body::after {
   top: 0; width: 100%;
   display: flex; justify-content: space-between; align-items: center;
   padding: 0.5rem 4vw;
-  z-index: 100;
+  z-index: 1000; /* Stays above grain */
   background: rgba(5, 5, 5, 0.1);
   backdrop-filter: blur(12px) saturate(180%);
   -webkit-backdrop-filter: blur(12px) saturate(180%);
@@ -242,7 +245,7 @@ body::after {
   transition: background 0.05s;
 }
 .is-active .css-monitor::after {
-  animation: screenFlash 0.6s ease forwards;
+  animation: screenFlash 0.4s ease forwards;
 }
 @keyframes screenFlash {
   0%   { background: rgba(144,255,0,0); }
@@ -255,8 +258,8 @@ body::after {
 
 /* Dramatic logo burst-in */
 .is-active .screen-logo {
-  animation: logoDramaticReveal 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards 0.25s,
-             logoPulse 2.5s ease-in-out infinite 1.2s;
+  animation: logoDramaticReveal 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards 0.1s,
+             logoPulse 2.5s ease-in-out infinite 0.7s;
 }
 @keyframes logoDramaticReveal {
   0%   { opacity: 0; transform: scale(0.3); filter: drop-shadow(0 0 0px rgba(144,255,0,0)); }
@@ -274,6 +277,8 @@ body::after {
   background: var(--accent);
   box-shadow: 0 0 20px rgba(144,255,0,0.2);
 }
+
+
 .css-base {
   width: 180px; height: 12px;
   background: var(--accent);
@@ -388,6 +393,9 @@ body::after {
 .interactive-computer:hover .local-cursor {
   opacity: 1;
   transform: translate(-50%, -50%) scale(1);
+}
+@media (pointer: coarse) {
+  .local-cursor { display: none !important; }
 }
 
 /* Floating Tech Bits */
@@ -550,6 +558,7 @@ body::after {
   animation: global-wave-anim 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   pointer-events: none;
   z-index: 10000;
+  will-change: transform, opacity;
 }
 @keyframes global-wave-anim {
   0% { transform: translate(-50%, -50%) scale(0.5); opacity: 1; border-width: 2px; }
@@ -564,36 +573,90 @@ body::after {
   max-width: 300px; color: var(--text-muted); font-size: 0.9rem;
   text-align: right; margin-bottom: 60px;
 }
+/* Projects Section - Pinterest Style Masonry */
 .projects-masonry {
-  display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px;
+  columns: 2; /* 2 columns for a clean vertical flow */
+  column-gap: 30px;
+  width: 100%;
 }
 .project-item {
-  position: relative; display: block; text-decoration: none;
-  border-radius: 12px; overflow: hidden;
+  display: block;
+  break-inside: avoid; /* Prevent items from splitting across columns */
+  margin-bottom: 30px;
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--bg-surface);
+  cursor: pointer;
 }
 .image-wrapper {
-  width: 100%; height: 100%; overflow: hidden;
+  width: 100%;
+  height: auto;
 }
 .project-item img {
-  width: 100%; height: 100%; object-fit: cover;
-  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.8s var(--transition);
 }
-.project-item:hover img { transform: scale(1.05); }
-
-.project-item.tall { grid-row: span 2; aspect-ratio: 3/4; }
-.project-item.wide { aspect-ratio: 16/9; }
-.project-item:not(.tall):not(.wide) { aspect-ratio: 4/3; }
+.project-item:hover img {
+  transform: scale(1.03);
+}
 
 .project-info {
-  position: absolute; bottom: 0; left: 0; width: 100%;
-  padding: 40px 30px 30px;
-  background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
-  transform: translateY(20px); opacity: 0;
-  transition: var(--transition);
+  display: none;
 }
-.project-item:hover .project-info { transform: translateY(0); opacity: 1; }
-.project-info .category { font-size: 0.8rem; text-transform: uppercase; font-weight: 700; letter-spacing: 1px; margin-bottom: 5px; display: block; }
-.project-info h3 { color: white; font-size: 1.5rem; }
+.project-item:hover .project-info {
+  opacity: 1;
+}
+
+/* Lightbox Preview */
+/* Upgraded Lightbox Modal */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.96);
+  backdrop-filter: blur(25px) saturate(150%);
+  -webkit-backdrop-filter: blur(25px) saturate(150%);
+  z-index: 9999; /* Highest priority */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.5s;
+  padding: 20px;
+  cursor: zoom-out;
+}
+.lightbox.is-active {
+  opacity: 1;
+  visibility: visible;
+}
+.lightbox-content {
+  max-width: 95%;
+  max-height: 85vh;
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5), 0 0 40px rgba(144, 255, 0, 0.1);
+  transform: scale(0.8) translateY(20px);
+  opacity: 0;
+  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
+}
+.lightbox.is-active .lightbox-content {
+  transform: scale(1) translateY(0);
+  opacity: 1;
+}
+.lightbox-close {
+  position: absolute;
+  top: 30px; right: 40px;
+  color: white;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .projects-masonry { columns: 1; }
+}
 
 /* About / Footer Section */
 .about-footer {
@@ -746,34 +809,344 @@ body::after {
 .footer-contact a { color: var(--text-muted); text-decoration: none; transition: color 0.3s; }
 .footer-contact a:hover { color: var(--accent); }
 
+/* ================================================================
+   MOBILE — max-width: 768px
+   Spacing scale: 16px | 24px | 40px | 60px
+   Font sizes: 0.8rem | 1rem | 1.5rem | 2.2rem
+================================================================ */
 @media (max-width: 768px) {
-  .hero-container { flex-direction: column; padding-top: 120px; }
-  .hero-content { flex: 1; margin-bottom: 5vh; width: 100%; text-align: center; align-items: center; }
-  .hero-content h1 { font-size: 3.5rem; }
-  .hero-visual { 
-    position: relative; width: 100%; height: auto; 
-    right: auto; top: auto; transform: none; 
-    justify-content: center; align-items: center;
-    margin-top: 40px;
+
+  /* --- Global container padding --- */
+  .container { padding: 0 20px; }
+  .section-padding { padding: 60px 0; }
+
+  /* --- Navbar --- */
+  .navbar { padding: 0.6rem 20px; }
+  .logo img { height: 32px; }
+  .nav-links { gap: 12px; }
+  .nav-links a { font-size: 0.75rem; letter-spacing: 0.5px; }
+
+  /* --- HERO SECTION ---
+     Strict vertical flow & restored SFX
+  ------------------------------------------------- */
+  .hero { padding-top: 0; min-height: 100svh; display: flex; align-items: flex-start; }
+  .hero-container {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding-top: 100px;
+    padding-bottom: 40px;
+    gap: 0;
+    width: 100%;
   }
+
+  /* Text content stacks first */
+  .hero-content {
+    width: 100%;
+    flex: none;
+    padding-top: 0;
+    padding: 0;
+    order: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* Sequence: Greeting -> Title -> Role -> Quote(Desc) -> CTA -> Contacts */
+  .hero-content > :nth-child(1) { order: 0; margin-bottom: 8px; } /* Greeting wrapper */
+  .hero-content > :nth-child(2) { order: 1; } /* Main title */
+  .hero-content > :nth-child(3) { order: 2; margin-bottom: 20px; } /* Subtitle wrapper */
+  .hero-content > :nth-child(6) { order: 3; margin-bottom: 24px; } /* Quote wrapper */
+  .hero-content > :nth-child(4) { order: 4; margin-bottom: 24px; width: 100%; max-width: 260px; display: flex; justify-content: center; } /* CTA */
+  .hero-content > :nth-child(5) { order: 5; margin-bottom: 0; } /* Contacts */
+
+  .greeting { font-size: 0.85rem; margin-bottom: 0; }
+
+  .main-title {
+    font-size: clamp(2.8rem, 13vw, 3.8rem);
+    letter-spacing: -1px;
+    line-height: 0.95;
+    margin-bottom: 16px;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+    color: var(--text-muted);
+    margin-bottom: 0;
+  }
+
+  /* CTA button */
+  .btn-primary {
+    padding: 13px 28px;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+  }
+
+  /* Contact info chips — Hidden on mobile as they are in the footer */
+  .hero-contact {
+    display: none;
+  }
+
+  /* Quote block turned into simple description */
+  .quote-wrapper {
+    align-items: center;
+    text-align: center;
+    max-width: 90%;
+    border-left: none;
+    border-top: none;
+    padding-left: 0;
+    padding-top: 0;
+    margin-top: 0;
+  }
+  .quote-wrapper i { display: none; } /* Hide quote icon */
+  .quote-wrapper p { font-size: 0.88rem; line-height: 1.5; color: var(--text-muted); }
+
+  /* Computer illustration & FX — BELOW text */
+  .hero-visual {
+    order: 2;
+    position: relative;
+    right: auto; top: auto;
+    transform: none;
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: visible; /* Let neon glow out */
+    pointer-events: none;
+    margin-top: 24px;
+  }
+
+  /* Restore Neon Beam */
+  .neon-beam { 
+    display: block; 
+    width: 100vw; 
+    height: 100vh; 
+    top: 0; 
+    right: -20vw; 
+    opacity: 0.35; 
+  }
+
   .interactive-computer {
-    margin-right: 0;
-    transform: scale(0.8); /* Scale down for mobile screens */
+    transform: scale(0.5); /* Smaller per request */
+    transform-origin: top center;
+    margin-right: 0; /* Remove desktop right-margin to perfectly center */
+    margin-bottom: -250px; /* Pull up all the empty space created by the 0.5 scale */
+    pointer-events: auto;
+  }
+
+  /* Center keyboard under monitor and float mouse so it doesn't push keyboard left */
+  .css-peripherals {
+    position: relative;
+    justify-content: center;
+  }
+  .css-mouse {
+    position: absolute;
+    right: -90px;
+  }
+
+  /* Info chips row — Hidden on mobile due to clutter/placement issues */
+  .visual-meta { 
+    display: none;
+  }
+  .meta-box {
+    background: rgba(10,10,10,0.8);
+    backdrop-filter: blur(5px);
+    font-size: 0.7rem;
+    padding: 8px 12px;
+  }
+
+  /* Floating tech bits — Restore but smaller */
+  .floating-tech-bits { display: block; opacity: 0.4; }
+  .tech-bit { transform: scale(0.7); }
+
+  /* --- TOOLS SCROLLER --- */
+  .tools-scrub-container {
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  .tools-scrub-area { height: 80px; }
+  .app-icon { width: 44px; height: 44px; font-size: 0.9rem; border-radius: 10px; }
+
+  /* --- SECTION HEADERS (Services, Projects) --- */
+  .section-header h2 {
+    font-size: clamp(2rem, 9vw, 2.6rem);
+    margin-bottom: 32px;
+    text-align: center;
+  }
+
+  /* --- SERVICES GRID --- */
+  .services-grid { grid-template-columns: 1fr; gap: 12px; }
+  .service-card { padding: 24px; }
+  .service-card:hover { transform: none; } /* disable lift on mobile */
+  .icon-wrapper { margin-bottom: 16px; }
+  .service-card h3 { font-size: 1rem; margin-bottom: 8px; }
+  .service-card p { font-size: 0.85rem; }
+
+  /* --- PROJECTS SECTION --- */
+  .project-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 8px;
+    margin-bottom: 0;
+  }
+  .header-desc {
+    text-align: center;
+    margin: 0 auto 24px;
     max-width: 100%;
+    font-size: 0.88rem;
   }
-  .visual-meta {
-    position: relative; left: auto; top: auto; transform: none;
-    flex-direction: row; flex-wrap: wrap; justify-content: center;
-    margin-top: 30px; gap: 10px;
+  .projects-masonry {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    width: 100%;
   }
-  .neon-beam { width: 100vw; transform: rotate(15deg); top: 0; }
-  .services-grid { grid-template-columns: 1fr; }
-  .projects-masonry { grid-template-columns: 1fr; }
-  .project-item.tall { grid-row: span 1; }
-  .stats-row { flex-wrap: wrap; gap: 40px; justify-content: center; }
-  .site-footer { flex-direction: column; gap: 20px; text-align: center; }
-  
-  .massive-text { font-size: 2.2rem; text-align: center; }
-  .footer-actions { flex-direction: column; width: 100%; }
-  .footer-actions .btn { width: 100%; justify-content: center; }
+  .project-item {
+    width: 100%;
+    margin-bottom: 0;
+    border-radius: 8px;
+  }
+  /* Always show project info on mobile (no hover) */
+  .project-info {
+    opacity: 1;
+    background: linear-gradient(to top, rgba(0,0,0,0.75), transparent);
+    padding: 20px 12px 12px;
+  }
+  .project-info h3 { font-size: 0.78rem; }
+  .project-info .category { font-size: 0.65rem; }
+  /* Disable scale animation on mobile */
+  .project-item:hover img { transform: none; }
+
+  /* --- ABOUT SECTION --- */
+  .about-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-bottom: 40px;
+    text-align: left;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  /* Image card at top */
+  .about-image {
+    order: -1;
+    display: flex;
+    justify-content: center;
+  }
+  .image-frame {
+    width: 140px;
+    height: 140px;
+  }
+
+  /* Text block */
+  .about-text {
+    width: 100%;
+    overflow: hidden;
+  }
+  .about-text .massive-text {
+    font-size: clamp(1rem, 4.5vw, 1.4rem);
+    margin: 12px 0;
+    line-height: 1.3;
+    word-break: break-word;
+  }
+  .about-bio {
+    font-size: 0.85rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    max-width: 100%;
+    word-break: break-word;
+  }
+  .about-capabilities {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .cap-tag {
+    font-size: 0.68rem;
+    padding: 6px 12px;
+    white-space: nowrap;
+  }
+
+  /* Marquee strip */
+  .marquee-strip { margin-bottom: 40px; padding: 14px 0; }
+  .marquee-content { font-size: 0.9rem; letter-spacing: 1px; }
+
+  /* Stats row — all 4 in one line */
+  .stats-row {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    margin-bottom: 24px;
+    overflow: visible;
+  }
+  .stat-item {
+    flex: 1;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    min-width: 0;
+  }
+  .stat-number { font-size: 1.2rem; margin-bottom: 2px; line-height: 1.2; }
+  .stat-label { font-size: 0.58rem; line-height: 1.3; color: var(--text-muted); }
+
+  /* Contact action buttons — all in one row */
+  .footer-actions {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 50px;
+  }
+  .btn-solid, .btn-outline {
+    flex: 1 1 auto;
+    font-size: 0.7rem;
+    padding: 10px 8px;
+    justify-content: center;
+    text-align: center;
+    border-radius: 6px;
+    white-space: nowrap;
+    min-width: 0;
+  }
+
+  /* --- SITE FOOTER --- */
+  .site-footer {
+    flex-direction: column;
+    gap: 12px;
+    padding: 30px 20px 24px;
+    text-align: center;
+  }
+  .footer-logo { font-size: 1.2rem; }
+  .footer-copy { font-size: 0.8rem; }
 }
+
+/* ================================================================
+   TABLET — 769px to 1024px
+================================================================ */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .container { padding: 0 32px; }
+  .section-padding { padding: 80px 0; }
+
+  .hero-container { gap: 20px; }
+  .main-title { font-size: clamp(3rem, 7vw, 5rem); }
+
+  .services-grid { grid-template-columns: repeat(2, 1fr); }
+
+  .about-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+  .image-frame { width: 260px; height: 260px; }
+
+  .stats-row { gap: 30px; }
+  .stat-number { font-size: 2.2rem; }
+
+  .footer-actions { flex-wrap: wrap; gap: 12px; }
+}
+

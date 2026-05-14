@@ -1,4 +1,4 @@
-﻿// Initialize Lenis Smooth Scrolling
+// Initialize Lenis Smooth Scrolling
 const lenis = new Lenis({
     duration: 1.2,
     easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -67,33 +67,33 @@ function playPowerUpSound() {
         bassOsc.start(ctx.currentTime);
         bassOsc.stop(ctx.currentTime + 0.4);
 
-        // 2. Rising power tone (the "on" sweep)
+        // 2. Rising power tone (the "on" sweep) - tightened to match visual pop
         const sweepOsc = ctx.createOscillator();
         const sweepEnv = ctx.createGain();
         sweepOsc.type = 'sawtooth';
-        sweepOsc.frequency.setValueAtTime(120, ctx.currentTime + 0.05);
-        sweepOsc.frequency.exponentialRampToValueAtTime(900, ctx.currentTime + 0.55);
+        sweepOsc.frequency.setValueAtTime(120, ctx.currentTime);
+        sweepOsc.frequency.exponentialRampToValueAtTime(900, ctx.currentTime + 0.35);
         sweepEnv.gain.setValueAtTime(0, ctx.currentTime);
         sweepEnv.gain.linearRampToValueAtTime(0.35, ctx.currentTime + 0.1);
-        sweepEnv.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.7);
+        sweepEnv.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
         const sweepLpf = ctx.createBiquadFilter();
         sweepLpf.type = 'lowpass';
         sweepLpf.frequency.value = 1800;
         sweepOsc.connect(sweepLpf).connect(sweepEnv).connect(master);
-        sweepOsc.start(ctx.currentTime + 0.05);
-        sweepOsc.stop(ctx.currentTime + 0.7);
+        sweepOsc.start(ctx.currentTime);
+        sweepOsc.stop(ctx.currentTime + 0.4);
 
-        // 3. High-freq shimmer (electrical crackle)
+        // 3. High-freq shimmer (electrical crackle) - tightened
         const shimmerOsc = ctx.createOscillator();
         const shimmerEnv = ctx.createGain();
         shimmerOsc.type = 'square';
-        shimmerOsc.frequency.setValueAtTime(3200, ctx.currentTime + 0.2);
-        shimmerOsc.frequency.exponentialRampToValueAtTime(5500, ctx.currentTime + 0.5);
-        shimmerEnv.gain.setValueAtTime(0.15, ctx.currentTime + 0.2);
-        shimmerEnv.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.65);
+        shimmerOsc.frequency.setValueAtTime(3200, ctx.currentTime + 0.1);
+        shimmerOsc.frequency.exponentialRampToValueAtTime(5500, ctx.currentTime + 0.3);
+        shimmerEnv.gain.setValueAtTime(0.15, ctx.currentTime + 0.1);
+        shimmerEnv.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
         shimmerOsc.connect(shimmerEnv).connect(master);
-        shimmerOsc.start(ctx.currentTime + 0.2);
-        shimmerOsc.stop(ctx.currentTime + 0.65);
+        shimmerOsc.start(ctx.currentTime + 0.1);
+        shimmerOsc.stop(ctx.currentTime + 0.4);
 
     } catch (e) {
         console.log('Audio blocked:', e);
@@ -116,8 +116,9 @@ magneticElements.forEach((el) => {
         gsap.to(el, {
             x: x * 0.3,
             y: y * 0.3,
-            duration: 0.5,
-            ease: "power3.out"
+            duration: 0.4,
+            ease: "power2.out",
+            overwrite: "auto" // Crucial for performance, stops tween buildup
         });
     });
 
@@ -126,8 +127,9 @@ magneticElements.forEach((el) => {
         gsap.to(el, {
             x: 0,
             y: 0,
-            duration: 0.8,
-            ease: "elastic.out(1, 0.3)"
+            duration: 0.7,
+            ease: "elastic.out(1, 0.4)",
+            overwrite: "auto"
         });
     });
 });
@@ -154,14 +156,14 @@ const heroTimeline = gsap.timeline({ defaults: { ease: "power4.out" } });
 // Staggered text reveal (moving up from hidden overflow)
 heroTimeline.fromTo('.reveal-text', 
     { y: '100%' },
-    { y: '0%', duration: 1.2, stagger: 0.1, delay: 0.2 }
+    { y: '0%', duration: 0.9, stagger: 0.08, delay: 0.1 }
 );
 
 // Fading in elements like buttons and quote
 heroTimeline.fromTo('.reveal-fade',
-    { opacity: 0, y: 20 },
-    { opacity: 1, y: 0, duration: 1, stagger: 0.1 },
-    "-=0.8"
+    { opacity: 0, y: 15 },
+    { opacity: 1, y: 0, duration: 0.8, stagger: 0.08 },
+    "-=0.5"
 );
 
 // 2. Parallax Elements
@@ -183,43 +185,43 @@ gsap.utils.toArray('.parallax').forEach(layer => {
 // 3. Scroll Reveal for Sections
 // Service Cards Stagger
 gsap.fromTo('.service-card', 
-    { opacity: 0, y: 50 },
+    { opacity: 0, y: 40 },
     {
         opacity: 1, 
         y: 0,
-        duration: 1,
-        stagger: 0.1,
+        duration: 0.8,
+        stagger: 0.08,
         ease: "power3.out",
         scrollTrigger: {
             trigger: "#services",
-            start: "top 70%",
+            start: "top 80%", // slightly earlier trigger for smoother flow
         }
     }
 );
 
 // Projects Scale Reveal
 gsap.fromTo('.reveal-scale', 
-    { opacity: 0, scale: 0.9 },
+    { opacity: 0, scale: 0.95 },
     {
         opacity: 1, 
         scale: 1,
-        duration: 1,
-        stagger: 0.1,
+        duration: 0.8,
+        stagger: 0.08,
         ease: "power3.out",
         scrollTrigger: {
             trigger: "#projects",
-            start: "top 70%",
+            start: "top 75%",
         }
     }
 );
 
 // About Section Text
 gsap.fromTo('.reveal-up', 
-    { opacity: 0, y: 40 },
+    { opacity: 0, y: 30 },
     {
         opacity: 1, 
         y: 0,
-        duration: 1,
+        duration: 0.8,
         ease: "power3.out",
         scrollTrigger: {
             trigger: "#about",
@@ -238,27 +240,28 @@ let scrubVelocity = 0;   // pixels/frame
 let scrubLastX    = null;
 let scrubInteracting = false;
 
-// â”€â”€ Scroll Click Sound (standalone, no whoosh) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Scroll Click Sound (standalone, no whoosh) ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬
 let clickDistAccum = 0;
 const CLICK_INTERVAL = 82;
 
 function playClick() {
     try {
-        const c = new (window.AudioContext || window.webkitAudioContext)();
-        const osc = c.createOscillator();
-        const env = c.createGain();
+        var c = getSharedCtx();
+        var t = c.currentTime;
+        var osc = c.createOscillator();
+        var env = c.createGain();
         osc.type = 'triangle';
-        osc.frequency.setValueAtTime(2400, c.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(900, c.currentTime + 0.04);
-        env.gain.setValueAtTime(0.07, c.currentTime);
-        env.gain.exponentialRampToValueAtTime(0.0001, c.currentTime + 0.05);
+        osc.frequency.setValueAtTime(2400, t);
+        osc.frequency.exponentialRampToValueAtTime(900, t + 0.04);
+        env.gain.setValueAtTime(0.07, t);
+        env.gain.exponentialRampToValueAtTime(0.0001, t + 0.05);
         osc.connect(env).connect(c.destination);
-        osc.start(c.currentTime);
-        osc.stop(c.currentTime + 0.05);
+        osc.start(t);
+        osc.stop(t + 0.05);
     } catch(e) {}
 }
 
-// â”€â”€ Animation loop â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Animation loop ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬
 function scrubLoop() {
     if (scrubTrack) {
         // High-friction inertia: multiply velocity by 0.88 each frame (slow glide)
@@ -268,12 +271,12 @@ function scrubLoop() {
         const prevOffset = scrubOffset;
         scrubOffset += scrubVelocity;
 
-        // â”€â”€ Infinite wrap â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-        // One set of 7 icons = 7Ã—60px + 6Ã—22px gap = 552px
+        // ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Infinite wrap ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬
+        // One set of 7 icons = 7ÃƒÆ’Ã¢â‚¬â€60px + 6ÃƒÆ’Ã¢â‚¬â€22px gap = 552px
         const SET_WIDTH = 552;
         if (scrubOffset < -SET_WIDTH) scrubOffset += SET_WIDTH;
         if (scrubOffset > 0)          scrubOffset -= SET_WIDTH;
-        // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+        // ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬
 
         // Use velocity for click accumulation (not offset delta, to avoid wrap-jump bug)
         clickDistAccum += Math.abs(scrubVelocity);
@@ -307,34 +310,37 @@ function scrubLoop() {
     requestAnimationFrame(scrubLoop);
 }
 
-// â”€â”€ Events â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Events ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬
 if (scrubContainer) {
     const area = scrubContainer.querySelector('.tools-scrub-area');
 
-    area.addEventListener('mousemove', e => {
+    // High-performance pointer events (handles mouse & touch together)
+    area.addEventListener('pointerdown', e => {
         scrubInteracting = true;
+        scrubLastX = e.clientX;
+        area.setPointerCapture(e.pointerId);
+    });
+
+    area.addEventListener('pointermove', e => {
+        if (!scrubInteracting) return;
         if (scrubLastX !== null) {
             const delta = e.clientX - scrubLastX;
-            scrubVelocity += delta * 0.35;
+            scrubVelocity += delta * 0.4; // Slightly increased sensitivity
         }
         scrubLastX = e.clientX;
     });
 
-    area.addEventListener('mouseleave', () => {
+    const stopScrub = () => {
         scrubInteracting = false;
         scrubLastX = null;
-    });
+    };
 
-    // Touch support
-    let touchLast = null;
-    area.addEventListener('touchmove', e => {
-        initAudio();
-        const tx = e.touches[0].clientX;
-        if (touchLast !== null) scrubVelocity += (tx - touchLast) * 0.35;
-        touchLast = tx;
-        e.preventDefault();
-    }, { passive: false });
-    area.addEventListener('touchend', () => { touchLast = null; });
+    area.addEventListener('pointerup', stopScrub);
+    area.addEventListener('pointercancel', stopScrub);
+    area.addEventListener('pointerleave', stopScrub);
+
+    // Prevent default touch behavior (scrolling) when dragging the toolkit
+    area.addEventListener('touchstart', e => { e.preventDefault(); }, { passive: false });
 
     scrubLoop();
 }
@@ -365,7 +371,68 @@ function playTileClick() {
     } catch(e) {}
 }
 
-document.querySelectorAll('.service-card, .project-item, .btn-outline, .btn-solid').forEach(function(el) {
+// Toned down "soft" click for projects
+function playSoftClick() {
+    try {
+        var c = getSharedCtx();
+        var t = c.currentTime;
+        var osc = c.createOscillator();
+        var env = c.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(400, t); // Lower pitch
+        osc.frequency.exponentialRampToValueAtTime(150, t + 0.1);
+        env.gain.setValueAtTime(0.08, t);      // Much lower volume (toned down)
+        env.gain.exponentialRampToValueAtTime(0.0001, t + 0.1);
+        osc.connect(env).connect(c.destination);
+        osc.start(t);
+        osc.stop(t + 0.1);
+    } catch(e) {}
+}
+
+document.querySelectorAll('.service-card, .btn-outline, .btn-solid').forEach(function(el) {
     el.addEventListener('click', playTileClick);
 });
+
+// -- Lightbox Logic (Enhanced) --
+const lbOverlay = document.getElementById('lightbox');
+const lbImg = document.getElementById('lightbox-img');
+const lbClose = document.querySelector('.lightbox-close');
+
+const closeLB = () => {
+    if (!lbOverlay) return;
+    lbOverlay.classList.remove('is-active');
+    document.body.style.overflow = '';
+    // Optional: clear src after fade out
+    setTimeout(() => { if(!lbOverlay.classList.contains('is-active')) lbImg.src = ""; }, 500);
+};
+
+document.addEventListener('click', (e) => {
+    const item = e.target.closest('.project-item');
+    if (item) {
+        const img = item.querySelector('img');
+        if (img && lbImg && lbOverlay) {
+            lbImg.src = img.src;
+            lbOverlay.classList.add('is-active');
+            if (typeof playSoftClick === 'function') playSoftClick();
+            document.body.style.overflow = 'hidden';
+        }
+    }
+});
+
+if (lbOverlay) {
+    lbOverlay.addEventListener('click', (e) => {
+        if (e.target !== lbImg) closeLB();
+    });
+}
+
+if (lbClose) {
+    lbClose.addEventListener('click', closeLB);
+}
+
+// Close on Escape key
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeLB();
+});
+
+
 
