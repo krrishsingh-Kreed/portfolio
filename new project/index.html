@@ -12,6 +12,14 @@
     <!-- Styles -->
     <link rel="stylesheet" href="styles.css?v=4.4">
     
+    <!-- Behold Instagram Widget -->
+    <script>
+      (function() {
+        const d=document,s=d.createElement("script");s.type="module";
+        s.src="https://w.behold.so/widget.js";d.head.append(s);
+      })();
+    </script>
+
     <!-- GSAP & Lenis -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
@@ -28,6 +36,8 @@
             <a href="#about" class="magnetic">ABOUT</a>
             <span class="divider">|</span>
             <a href="#services" class="magnetic">SERVICES</a>
+            <span class="divider">|</span>
+            <a href="#instagram" class="magnetic">INSTAGRAM</a>
             <span class="divider">|</span>
             <a href="#contact" class="magnetic">CONTACT</a>
         </div>
@@ -208,6 +218,24 @@
                     <h3>Printables</h3>
                     <p>High-quality designs optimized for physical print and production.</p>
                 </div>
+                <!-- Card 10 -->
+                <div class="service-card reveal-up">
+                    <div class="icon-wrapper"><i class="fa-solid fa-code"></i></div>
+                    <h3>Web Design & Development</h3>
+                    <p>Modern, responsive websites built to perform and impress across all devices.</p>
+                </div>
+                <!-- Card 11 -->
+                <div class="service-card reveal-up">
+                    <div class="icon-wrapper"><i class="fa-solid fa-pen-ruler"></i></div>
+                    <h3>UI/UX Design</h3>
+                    <p>Intuitive interfaces and seamless user experiences crafted with purpose.</p>
+                </div>
+                <!-- Card 12 -->
+                <div class="service-card reveal-up">
+                    <div class="icon-wrapper"><i class="fa-solid fa-window-maximize"></i></div>
+                    <h3>Landing Pages</h3>
+                    <p>High-converting landing pages designed to capture attention and drive action.</p>
+                </div>
             </div>
         </div>
     </section>
@@ -337,6 +365,24 @@
         </div>
     </section>
 
+    <!-- Instagram Feed Section -->
+    <section class="instagram-section section-padding" id="instagram">
+        <div class="container">
+            <div class="section-header insta-header">
+                <div>
+                    <span class="small-title text-accent">LIVE FEED</span>
+                    <h2>Instagram<span class="text-accent">.</span></h2>
+                </div>
+                <a href="https://instagram.com/the_kreed_design" target="_blank" class="insta-follow-btn magnetic">
+                    <i class="fa-brands fa-instagram"></i> @the_kreed_design
+                </a>
+            </div>
+            <div class="insta-feed-wrapper">
+                <div data-behold-id="0UfgseSsopQZT8tBsTOL"></div>
+            </div>
+        </div>
+    </section>
+
     <!-- About & Footer Section -->
     <section class="about-footer section-padding" id="about">
         <div class="container">
@@ -387,7 +433,7 @@
                         <span class="stat-label">Worldwide clients</span>
                     </div>
                     <div class="stat-item">
-                        <span class="stat-number text-accent">9</span>
+                        <span class="stat-number text-accent">12</span>
                         <span class="stat-label">Services offered</span>
                     </div>
                 </div>

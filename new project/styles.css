@@ -810,6 +810,87 @@ body::after {
 .footer-contact a:hover { color: var(--accent); }
 
 /* ================================================================
+   INSTAGRAM SECTION
+================================================================ */
+.instagram-section {
+  position: relative;
+  z-index: 2;
+  border-top: 1px solid var(--border);
+}
+
+.insta-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 50px;
+}
+
+.insta-follow-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 28px;
+  border: 1px solid rgba(144, 255, 0, 0.3);
+  background: rgba(144, 255, 0, 0.05);
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  border-radius: 50px;
+  transition: var(--transition);
+  white-space: nowrap;
+  margin-bottom: 60px;
+}
+.insta-follow-btn:hover {
+  background: rgba(144, 255, 0, 0.12);
+  border-color: var(--accent);
+  box-shadow: 0 0 25px rgba(144, 255, 0, 0.2);
+  transform: translateY(-3px);
+}
+.insta-follow-btn i {
+  font-size: 1.1rem;
+}
+
+.insta-feed-wrapper {
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgba(8, 8, 8, 0.6);
+  border: 1px solid var(--border);
+  padding: 4px;
+  box-shadow: 0 0 60px rgba(144, 255, 0, 0.04);
+  transition: box-shadow 0.4s ease;
+}
+.insta-feed-wrapper:hover {
+  box-shadow: 0 0 80px rgba(144, 255, 0, 0.08);
+}
+
+/* Behold widget overrides for dark theme */
+.insta-feed-wrapper [data-behold-id] {
+  width: 100%;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .insta-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .insta-follow-btn {
+    margin-bottom: 0;
+    font-size: 0.75rem;
+    padding: 10px 18px;
+  }
+  .insta-feed-wrapper {
+    padding: 2px;
+    border-radius: 10px;
+  }
+}
+
+/* ================================================================
    MOBILE — max-width: 768px
    Spacing scale: 16px | 24px | 40px | 60px
    Font sizes: 0.8rem | 1rem | 1.5rem | 2.2rem
