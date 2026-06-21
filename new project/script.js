@@ -230,6 +230,43 @@ gsap.fromTo('.reveal-up',
     }
 );
 
+// Stats Count Up Animation
+const statNumbers = document.querySelectorAll('.stat-number');
+if (statNumbers.length > 0) {
+    gsap.fromTo('.stat-item', 
+        { opacity: 0, y: 30 },
+        {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            stagger: 0.15,
+            ease: "power3.out",
+            scrollTrigger: {
+                trigger: ".stats-row",
+                start: "top 85%",
+                onEnter: () => {
+                    statNumbers.forEach(stat => {
+                        const target = parseFloat(stat.getAttribute('data-target'));
+                        const suffix = stat.getAttribute('data-suffix') || '';
+                        const decimals = target % 1 !== 0 ? 1 : 0;
+                        
+                        const obj = { val: 0 };
+                        gsap.to(obj, {
+                            val: target,
+                            duration: 2.0,
+                            ease: "power2.out",
+                            onUpdate: () => {
+                                stat.textContent = obj.val.toFixed(decimals) + suffix;
+                            }
+                        });
+                    });
+                },
+                once: true
+            }
+        }
+    );
+}
+
 // --- Tools Scrub Interaction (Inertial + Sound) ---
 const scrubContainer = document.querySelector('.tools-scrub-container');
 const scrubTrack     = document.querySelector('.scrub-track');
