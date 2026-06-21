@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Krrish Singh | Graphic Designer</title>
+    
+    <!-- Fonts -->
+    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@900,700,500,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css?v=4.4">
+    
+    <!-- Behold Instagram Widget -->
+    <script>
+      (function() {
+        const d=document,s=d.createElement("script");s.type="module";
+        s.src="https://w.behold.so/widget.js";d.head.append(s);
+      })();
+    </script>
+
+    <!-- GSAP & Lenis -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.34/dist/lenis.min.js"></script>
+</head>
+<body>
+
+    <div class="noise"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <a href="#" class="logo magnetic"><img src="assets/LOGO%20PNG.png" alt="K. Logo" style="height: 40px; width: auto; mix-blend-mode: normal;"></a>
+        <div class="nav-links">
+            <a href="#about" class="magnetic">ABOUT</a>
+            <span class="divider">|</span>
+            <a href="#services" class="magnetic">SERVICES</a>
+            <span class="divider">|</span>
+            <a href="#instagram" class="magnetic">INSTAGRAM</a>
+            <span class="divider">|</span>
+            <a href="#contact" class="magnetic">CONTACT</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container hero-container">
+            
+            <div class="hero-content">
+                <div class="greeting-wrapper overflow-hidden">
+                    <p class="greeting reveal-text">Hi There!</p>
+                </div>
+                
+                <h1 class="main-title">
+                    <div class="overflow-hidden"><span class="reveal-text delay-1">Krrish</span></div>
+                    <div class="overflow-hidden"><span class="reveal-text delay-2 text-accent">Singh</span></div>
+                </h1>
+                
+                <div class="overflow-hidden">
+                    <p class="subtitle reveal-text delay-3">a Graphic Designer</p>
+                </div>
+                
+                <a href="#contact" class="btn-primary magnetic reveal-fade delay-4">
+                    LET'S WORK TOGETHER <i class="fa-solid fa-arrow-right"></i>
+                </a>
+
+                <div class="hero-contact reveal-fade delay-5">
+                    <div class="contact-line">
+                        <i class="fa-brands fa-whatsapp text-accent"></i>
+                        <span>+91 98997 49940</span>
+                    </div>
+                    <div class="contact-line">
+                        <i class="fa-solid fa-envelope text-accent"></i>
+                        <span>krrishsingh.hello@gmail.com</span>
+                    </div>
+                </div>
+
+                <div class="quote-wrapper reveal-fade delay-6">
+                    <i class="fa-solid fa-quote-left text-accent"></i>
+                    <p>Design is not just what it looks like, Design is how it works.</p>
+                    <p style="margin-top: 10px; font-weight: 500; color: #fff;">Transforming ideas into stunning visuals.</p>
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <div class="interactive-computer" id="computer-screen">
+                    <div class="css-monitor">
+                        <img src="assets/LOGO%20PNG.png" alt="K. Logo" class="screen-logo">
+                    </div>
+                    <div class="css-stand"></div>
+                    <div class="css-base"></div>
+                    <div class="css-peripherals">
+                        <div class="css-keyboard">
+                            <div class="key-row">
+                                <div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key circle"></div>
+                            </div>
+                            <div class="key-row">
+                                <div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key enter-top"></div>
+                            </div>
+                            <div class="key-row">
+                                <div class="key wide"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key"></div><div class="key enter-bottom"></div>
+                            </div>
+                            <div class="key-row">
+                                <div class="key wide"></div><div class="key space"></div><div class="key wide"></div>
+                            </div>
+                        </div>
+                        <div class="css-mouse"></div>
+                    </div>
+                    <div class="local-cursor">CLICK</div>
+                </div>
+
+                <div class="visual-meta parallax" data-speed="1.3">
+                    <div class="meta-box"><i class="fa-solid fa-location-dot"></i><span>New Delhi</span></div>
+                    <div class="meta-box"><i class="fa-solid fa-globe"></i><span>Available Worldwide</span></div>
+                    <a href="https://instagram.com/the_kreed_design" target="_blank" style="text-decoration: none; color: inherit;">
+                        <div class="meta-box magnetic"><i class="fa-brands fa-instagram text-accent"></i><span>@the_kreed_design</span></div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+    </section>
+
+    <!-- Compact Tools Scroller Section (Positioned in the gap) -->
+    <div class="tools-scrub-container">
+        <div class="tools-scrub-area">
+            <div class="scrub-track">
+                <!-- Set 1 -->
+                <div class="app-icon ps">Ps</div>
+                <div class="app-icon ai">Ai</div>
+                <div class="app-icon ae">Ae</div>
+                <div class="app-icon pr">Pr</div>
+                <div class="app-icon id">Id</div>
+                <div class="app-icon figma">Fi</div>
+                <div class="app-icon corel">Cd</div>
+                <!-- Set 2 (duplicate) -->
+                <div class="app-icon ps">Ps</div>
+                <div class="app-icon ai">Ai</div>
+                <div class="app-icon ae">Ae</div>
+                <div class="app-icon pr">Pr</div>
+                <div class="app-icon id">Id</div>
+                <div class="app-icon figma">Fi</div>
+                <div class="app-icon corel">Cd</div>
+                <!-- Set 3 (duplicate) -->
+                <div class="app-icon ps">Ps</div>
+                <div class="app-icon ai">Ai</div>
+                <div class="app-icon ae">Ae</div>
+                <div class="app-icon pr">Pr</div>
+                <div class="app-icon id">Id</div>
+                <div class="app-icon figma">Fi</div>
+                <div class="app-icon corel">Cd</div>
+            </div>
+        </div>
+        <div class="scrub-hint">SCRUB TO EXPLORE TOOLKIT</div>
+    </div>
+
+    <!-- Services Section -->
+    <section class="services section-padding" id="services">
+        <div class="container">
+            <div class="section-header">
+
+                <h2>Services<span class="text-accent">.</span></h2>
+            </div>
+
+            <div class="services-grid">
+                <!-- Card 1 -->
+                <div class="service-card reveal-up">
+                    <div class="icon-wrapper"><i class="fa-solid fa-box-open"></i></div>
+                    <h3>Packaging Design</h3>
+                    <p>Premium packaging that sells products and tells a brand story.</p>
+                </div>
+                <!-- Card 2 -->
+                <div class="service-card reveal-up">
+                    <div class="icon-wrapper"><i class="fa-solid fa-image"></i></div>
+                    <h3>Post Design</h3>
+                    <p>Scroll-stopping social media creatives for Instagram & beyond.</p>
+                </div>
+                <!-- Card 3 -->
+                <div class="service-card reveal-up">
+                    <div class="icon-wrapper"><i class="fa-solid fa-film"></i></div>
+                    <h3>Reel Editing</h3>
+                    <p>High-energy reels & shorts edited to convert and engage.</p>
+                </div>
+                <!-- Card 4 -->
+                <div class="service-card reveal-up">
+                    <div class="icon-wrapper"><i class="fa-solid fa-scroll"></i></div>
+                    <h3>Poster Design</h3>
+                    <p>Eye-catching posters for events, campaigns, and exhibitions.</p>
+                </div>
+                <!-- Card 5 -->
+                <div class="service-card reveal-up">
+                    <div class="icon-wrapper"><i class="fa-solid fa-rectangle-ad"></i></div>
+                    <h3>Banner & Billboard</h3>
+                    <p>Large format digital banners and print billboards.</p>
+                </div>
+                <!-- Card 6 -->
+                <div class="service-card reveal-up">
+                    <div class="icon-wrapper"><i class="fa-solid fa-pen-nib"></i></div>
+                    <h3>Illustrations</h3>
+                    <p>Custom illustrations bringing ideas to visual life.</p>
+                </div>
+                <!-- Card 7 -->
+                <div class="service-card reveal-up">
+                    <div class="icon-wrapper"><i class="fa-solid fa-rectangle-ad"></i></div>
+                    <h3>Ads Creative</h3>
+                    <p>High-conversion visual assets for social and search campaigns.</p>
+                </div>
+                <!-- Card 8 -->
+                <div class="service-card reveal-up">
+                    <div class="icon-wrapper"><i class="fa-solid fa-book-open"></i></div>
+                    <h3>Catalogue & Brochure</h3>
+                    <p>Professional layout design for product showcases and corporate profiles.</p>
+                </div>
+                <!-- Card 9 -->
+                <div class="service-card reveal-up">
+                    <div class="icon-wrapper"><i class="fa-solid fa-print"></i></div>
+                    <h3>Printables</h3>
+                    <p>High-quality designs optimized for physical print and production.</p>
+                </div>
+                <!-- Card 10 -->
+                <div class="service-card reveal-up">
+                    <div class="icon-wrapper"><i class="fa-solid fa-code"></i></div>
+                    <h3>Web Design & Development</h3>
+                    <p>Modern, responsive websites built to perform and impress across all devices.</p>
+                </div>
+                <!-- Card 11 -->
+                <div class="service-card reveal-up">
+                    <div class="icon-wrapper"><i class="fa-solid fa-pen-ruler"></i></div>
+                    <h3>UI/UX Design</h3>
+                    <p>Intuitive interfaces and seamless user experiences crafted with purpose.</p>
+                </div>
+                <!-- Card 12 -->
+                <div class="service-card reveal-up">
+                    <div class="icon-wrapper"><i class="fa-solid fa-window-maximize"></i></div>
+                    <h3>Landing Pages</h3>
+                    <p>High-converting landing pages designed to capture attention and drive action.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="projects section-padding" id="projects">
+        <div class="container">
+            <div class="section-header project-header">
+                <div>
+                    <span class="small-title text-accent">SELECTED WORK</span>
+                    <h2>Projects<span class="text-accent">.</span></h2>
+                </div>
+                <p class="header-desc">A glimpse into the diverse array of visual worlds I've built for brands.</p>
+            </div>
+
+            <div class="projects-masonry">
+                <!-- Project 1 -->
+                <a class="project-item reveal-scale project-hover">
+                    <div class="image-wrapper">
+                        <img src="assets/projects/1.jpg" alt="Visual Identity I">
+                    </div>
+                    <div class="project-info">
+                        <span class="category text-accent">Branding</span>
+                        <h3>Core Brand Architecture</h3>
+                    </div>
+                </a>
+
+                <!-- Project 2 -->
+                <a class="project-item reveal-scale project-hover">
+                    <div class="image-wrapper">
+                        <img src="assets/projects/2.jpg" alt="Campaign Design">
+                    </div>
+                    <div class="project-info">
+                        <span class="category text-accent">Campaigns</span>
+                        <h3>Global Marketing Strategy</h3>
+                    </div>
+                </a>
+
+                <!-- Project 3 -->
+                <a class="project-item reveal-scale project-hover">
+                    <div class="image-wrapper">
+                        <img src="assets/projects/3.jpg" alt="Social Media Pack">
+                    </div>
+                    <div class="project-info">
+                        <span class="category text-accent">Social Media</span>
+                        <h3>Digital Engagement Series</h3>
+                    </div>
+                </a>
+
+                <!-- Project 4 -->
+                <a class="project-item reveal-scale project-hover">
+                    <div class="image-wrapper">
+                        <img src="assets/projects/4.jpg" alt="Print Media">
+                    </div>
+                    <div class="project-info">
+                        <span class="category text-accent">Editorial</span>
+                        <h3>Modern Publication Layout</h3>
+                    </div>
+                </a>
+
+                <!-- Project 5 -->
+                <a class="project-item reveal-scale project-hover">
+                    <div class="image-wrapper">
+                        <img src="assets/projects/5.jpg" alt="Art Direction">
+                    </div>
+                    <div class="project-info">
+                        <span class="category text-accent">Moodboard</span>
+                        <h3>Visual Direction & Concepts</h3>
+                    </div>
+                </a>
+
+                <!-- Project 6 -->
+                <a class="project-item reveal-scale project-hover">
+                    <div class="image-wrapper">
+                        <img src="assets/projects/6.jpg" alt="UI Concept">
+                    </div>
+                    <div class="project-info">
+                        <span class="category text-accent">UI/UX</span>
+                        <h3>Product Interface Design</h3>
+                    </div>
+                </a>
+
+                <!-- Project 7 -->
+                <a class="project-item reveal-scale project-hover">
+                    <div class="image-wrapper">
+                        <img src="assets/projects/7.jpg" alt="Packaging">
+                    </div>
+                    <div class="project-info">
+                        <span class="category text-accent">Packaging</span>
+                        <h3>Eco-Friendly Product Wrap</h3>
+                    </div>
+                </a>
+
+                <!-- Project 8 -->
+                <a class="project-item reveal-scale project-hover">
+                    <div class="image-wrapper">
+                        <img src="assets/projects/8.jpg" alt="Poster Series">
+                    </div>
+                    <div class="project-info">
+                        <span class="category text-accent">Typography</span>
+                        <h3>Minimalist Type Study</h3>
+                    </div>
+                </a>
+
+                <!-- Project 9 -->
+                <a class="project-item reveal-scale project-hover">
+                    <div class="image-wrapper">
+                        <img src="assets/projects/9.jpg" alt="Digital Art">
+                    </div>
+                    <div class="project-info">
+                        <span class="category text-accent">Artwork</span>
+                        <h3>Concept Digital Illustration</h3>
+                    </div>
+                </a>
+
+                <!-- Project 10 -->
+                <a class="project-item reveal-scale project-hover">
+                    <div class="image-wrapper">
+                        <img src="assets/projects/10.jpg" alt="Motion Assets">
+                    </div>
+                    <div class="project-info">
+                        <span class="category text-accent">Motion</span>
+                        <h3>High-Fidelity Motion Assets</h3>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Instagram Feed Section -->
+    <section class="instagram-section section-padding" id="instagram">
+        <div class="container">
+            <div class="section-header insta-header">
+                <div>
+                    <span class="small-title text-accent">LIVE FEED</span>
+                    <h2>Instagram<span class="text-accent">.</span></h2>
+                </div>
+                <a href="https://instagram.com/the_kreed_design" target="_blank" class="insta-follow-btn magnetic">
+                    <i class="fa-brands fa-instagram"></i> @the_kreed_design
+                </a>
+            </div>
+            <div class="insta-feed-wrapper">
+                <div data-behold-id="0UfgseSsopQZT8tBsTOL"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About & Footer Section -->
+    <section class="about-footer section-padding" id="about">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-text reveal-up">
+                    <span class="small-title text-accent">ABOUT ME</span>
+                    <h2 class="massive-text">
+                        I'm <span class="text-accent">Krrish Singh</span>, a 21-year-old graphic designer & social media manager.
+                    </h2>
+                    <p class="about-bio">
+                        I specialize in blending digital aesthetics with high-impact design. I don't just create visuals; I build digital identities that resonate and command attention.
+                    </p>
+                    <div class="about-capabilities">
+                        <span class="cap-tag">Visual Strategy</span>
+                        <span class="cap-tag">Brand Identity</span>
+                        <span class="cap-tag">Social Media</span>
+                        <span class="cap-tag">Motion Design</span>
+                        <span class="cap-tag">UI/UX Concepts</span>
+                    </div>
+                </div>
+                <div class="about-image reveal-scale">
+                    <div class="image-frame">
+                        <img src="assets/MY%20IMAGE.png" alt="Krrish Singh">
+                        <div class="frame-border"></div>
+                    </div>
+                </div>
+            </div>
+                
+                <div class="marquee-strip">
+                    <div class="marquee-content">
+                        <span>Post Design</span> ✦ <span>Packaging Design</span> ✦ <span>Reel Editing</span> ✦ <span>Poster Design</span> ✦ <span>Banner & Billboard</span> ✦ <span>Illustrations</span> ✦ <span>Ads Creative</span> ✦ <span>Catalogue & Brochure</span> ✦ <span>Printables</span> ✦ 
+                        <!-- Duplicate for seamless scroll -->
+                        <span>Post Design</span> ✦ <span>Packaging Design</span> ✦ <span>Reel Editing</span> ✦ <span>Poster Design</span> ✦ <span>Banner & Billboard</span> ✦ <span>Illustrations</span> ✦ <span>Ads Creative</span> ✦ <span>Catalogue & Brochure</span> ✦ <span>Printables</span> ✦ 
+                    </div>
+                </div>
+
+                <div class="stats-row">
+                    <div class="stat-item">
+                        <span class="stat-number text-accent" data-target="3.5" data-suffix="+">0</span>
+                        <span class="stat-label">Years experience</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number text-accent" data-target="459" data-suffix="+">0</span>
+                        <span class="stat-label">Projects completed</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number text-accent" data-target="68" data-suffix="+">0</span>
+                        <span class="stat-label">Worldwide clients</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number text-accent" data-target="12" data-suffix="">0</span>
+                        <span class="stat-label">Services offered</span>
+                    </div>
+                </div>
+
+                <div class="footer-actions">
+                    <a href="#contact" class="btn-solid magnetic">START A PROJECT <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="tel:+919899749940" class="btn-outline magnetic">CALL ME <i class="fa-solid fa-phone"></i></a>
+                    <a href="https://wa.me/919899749940" class="btn-outline magnetic" target="_blank">MESSAGE ME <i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="mailto:krrishsingh.hello@gmail.com" class="btn-outline magnetic">MAIL ME <i class="fa-solid fa-envelope"></i></a>
+                    <a href="https://instagram.com/the_kreed_design" class="btn-outline magnetic" target="_blank">INSTAGRAM <i class="fa-brands fa-instagram"></i></a>
+                </div>
+            </div>
+
+            <footer class="site-footer" id="contact">
+                <div class="footer-logo">
+                    <img src="assets/LOGO%20PNG.png" alt="K. Logo" style="height: 60px; width: auto; filter: brightness(0) invert(1);">
+                </div>
+                <div class="footer-copy">&copy; 2026 Krrish Singh. All rights reserved.</div>
+                <div class="footer-contact">
+                    <a href="mailto:krrishsingh.hello@gmail.com">krrishsingh.hello@gmail.com</a>
+                    <span class="divider">|</span>
+                    <a href="tel:+919899749940">+91 98997 49940</a>
+                    <span class="divider">|</span>
+                    <a href="https://instagram.com/the_kreed_design" target="_blank"><i class="fa-brands fa-instagram"></i> @the_kreed_design</a>
+                </div>
+            </footer>
+        </div>
+    </section>
+
+    <!-- Lightbox Overlay -->
+    <div class="lightbox" id="lightbox">
+        <span class="lightbox-close">&times;</span>
+        <img class="lightbox-content" id="lightbox-img" src="" alt="Preview">
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="script.js?v=4.2"></script>
+</body>
+</html>
